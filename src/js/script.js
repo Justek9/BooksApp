@@ -14,6 +14,7 @@
       this.data = data;
       this.renderOnPage();
       this.addToFav();
+      this.filter()
     }
 
     renderOnPage() {
@@ -28,19 +29,47 @@
     addToFav(){
       let favoriteBooks = [];
       this.booksContainer.addEventListener('dblclick', function(event){
-         event.preventDefault()
+        event.preventDefault();
         const bookId = event.target.closest('a').getAttribute('data-id');
         if(!favoriteBooks.includes(bookId)){
           favoriteBooks.push(bookId);
           event.target.closest('a').classList.add('favorite');}
 
         else {
-          let index = favoriteBooks.indexOf(bookId)
+          let index = favoriteBooks.indexOf(bookId);
           favoriteBooks.splice(index, 1);
           event.target.closest('a').classList.remove('favorite');
         }
       });     
     }
+
+    filter(){
+
+      let filters = []
+      this.filters = document.querySelector(".filters")
+      this.filters.addEventListener('change', function(event){
+        event.preventDefault()
+        let checkboxValue = event.target.value
+        if(!filters.includes(checkboxValue)) {
+          filters.push(checkboxValue)
+          // console.log(dataSource.books);
+        } else {
+          let index = filters.indexOf(checkboxValue);
+          filters.splice(index, 1)
+        }
+        })
+        console.log(filters);
+
+        for (let book of dataSource.books ) {
+          console.log(book.details);
+        
+          for (let filter of filters){
+            console.log(filters);
+        }
+      }
+    }
+
+    
   }
 
   class ListOfBooks {
@@ -54,6 +83,8 @@
         new Book(book);
       }
     }
+
+
   }
 
   new ListOfBooks();
