@@ -1,7 +1,5 @@
 'use strict';
 {
-  // Twoim zadaniem jest utworzenie i wywołanie funkcji, która przejdzie po wszystkich książkach z dataSource.books i wyrenderuje dla nich reprezentacje HTML w liście .books-list. Oczywiście musisz wykorzystać w tym celu dostarczony już szablon (#template-book).
-
   const select = {
     templateOf: {
       templateBooks: '#template-book',
@@ -30,16 +28,19 @@
     addToFav(){
       let favoriteBooks = [];
       this.booksContainer.addEventListener('dblclick', function(event){
-      // event.preventDefault()
-      // console.log(event.target.closest("a"));
+         event.preventDefault()
         const bookId = event.target.closest('a').getAttribute('data-id');
-        favoriteBooks.push(bookId);
-        event.target.closest('a').classList.add('favorite');
-      // console.log(favoriteBooks);
+        if(!favoriteBooks.includes(bookId)){
+          favoriteBooks.push(bookId);
+          event.target.closest('a').classList.add('favorite');}
+
+        else {
+          let index = favoriteBooks.indexOf(bookId)
+          favoriteBooks.splice(index, 1);
+          event.target.closest('a').classList.remove('favorite');
+        }
       });     
     }
-
-
   }
 
   class ListOfBooks {
