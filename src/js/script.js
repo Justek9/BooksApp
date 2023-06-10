@@ -16,10 +16,28 @@
     }
 
     renderOnPage() {
+      this.data.ratingBgc = this.determineRatingBgc(this.data.rating);
+      this.data.ratingWidth = (this.data.rating / 10) * 100;
       const generatedHTML = templates.templateBooks(this.data);
       this.element = utils.createDOMFromHTML(generatedHTML);
       this.booksContainer = document.querySelector('.books-list');
       this.booksContainer.appendChild(this.element);
+    }
+
+    determineRatingBgc(rating) {
+      if (rating < 6) {
+        this.ratingBgc = 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%);';
+      }
+      if (rating > 6 && rating <= 8) {
+        this.ratingBgc = 'linear-gradient(to bottom, #b4df5b 0%,#b4df5b 100%);';
+      }
+      if (rating > 8 && rating <= 9) {
+        this.ratingBgc = 'linear-gradient(to bottom, #299a0b 0%, #299a0b 100%);';
+      }
+      if (rating > 9) {
+        this.ratingBgc = 'linear-gradient(to bottom, #ff0084 0%,#ff0084 100%)';
+      }
+      return this.ratingBgc;
     }
   }
 
@@ -64,8 +82,8 @@
       this.filters.addEventListener('change', function (event) {
         event.preventDefault();
         let checkboxValue = event.target.value;
-
         const allBooks = document.querySelectorAll('.book a');
+
         for (const book of allBooks) {
           book.classList.remove('hidden');
         }
@@ -76,6 +94,7 @@
           let index = filtersArray.indexOf(checkboxValue);
           filtersArray.splice(index, 1);
         }
+
         for (let book of dataSource.books) {
           let details = book.details;
           for (let filter of filtersArray) {
