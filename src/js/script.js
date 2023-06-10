@@ -49,19 +49,20 @@
 				event.preventDefault()
 				let checkboxValue = event.target.value
 
+				const allBooks = document.querySelectorAll('.book a')
+				for (const book of allBooks) {
+					book.classList.remove('hidden')
+				}
+
 				if (!filtersArray.includes(checkboxValue)) {
 					filtersArray.push(checkboxValue)
 				} else {
 					let index = filtersArray.indexOf(checkboxValue)
 					filtersArray.splice(index, 1)
 				}
-				console.log(filtersArray)
 				for (let book of dataSource.books) {
-					//console.log(book)
 					let details = book.details
 					for (let filter of filtersArray) {
-						//console.log(filter)
-						// console.log(Object.keys(details))
 						if (
 							!(
 								(Object.keys(details)[0] === filter && Object.values(details)[0] === true) ||
@@ -90,5 +91,5 @@
 		}
 	}
 
-	new ListOfBooks()
+	const app = new ListOfBooks()
 }
